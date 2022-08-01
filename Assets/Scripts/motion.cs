@@ -20,8 +20,8 @@ namespace Com.Kawaiisun.SimpleHostile{
         // Update is called once per frame
         void FixedUpdate()
         {
-            float t_hmoved = Input.GetAxis("Horizontal");
-            float t_vmoved = Input.GetAxis("Vertical");
+            float t_hmoved = Input.GetAxisRaw("Horizontal");
+            float t_vmoved = Input.GetAxisRaw("Vertical");
 
             Vector3 t_direction = new Vector3(t_hmoved, 0, t_vmoved);
             t_direction.Normalize();

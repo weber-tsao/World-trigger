@@ -728,4 +728,4 @@ MonoBehaviour:
   camera: {fileID: 1298028024}
   x_sensitivity: 100
   y_sensitivity: 100
-  maxAngle: 0
+  maxAngle: 60
