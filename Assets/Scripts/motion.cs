@@ -15,8 +15,9 @@ namespace Com.Kawaiisun.SimpleHostile{
         private float sprintFOVModifier = 1.5f;
         public float jumpForce;
 
-        public float gravity = 1; //gravity
-        private CharacterController controller;
+        public float gravity = 1; //gravity       
+        public LayerMask ground;
+        public Transform groundDetector;
 
         //private Animator animator;
 
@@ -27,8 +28,6 @@ namespace Com.Kawaiisun.SimpleHostile{
 
             Camera.main.enabled = false;
             body = GetComponent<Rigidbody>();
-
-            controller = GetComponent<CharacterController>();
         }
 
         // Update is called once per frame
@@ -38,13 +37,14 @@ namespace Com.Kawaiisun.SimpleHostile{
             float t_hmoved = Input.GetAxisRaw("Horizontal");
             float t_vmoved = Input.GetAxisRaw("Vertical");
 
-            // Controls
+            //Controls
             bool sprint = Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift);
             bool jump = Input.GetKey(KeyCode.Space);
 
             //States
-            bool isJumping = jump;
-            bool isSprinting = sprint && t_vmoved > 0 && !isJumping;
+            bool isGrounded = Physics.Raycast(groundDetector.position, Vector3.down, 0.1f, ground);
+            bool isJumping = jump && isGrounded;
+            bool isSprinting = sprint && t_vmoved > 0 && !isJumping && isGrounded;
             
             //Jumping
             if(isJumping){
@@ -63,7 +63,7 @@ namespace Com.Kawaiisun.SimpleHostile{
             t_target_velocity.y = body.velocity.y;
             body.velocity = t_target_velocity;
 
-            // Field of View
+            //Field of View
             if (isSprinting) {normal_camera.fieldOfView = Mathf.Lerp(normal_camera.fieldOfView, baseFOV*sprintFOVModifier, Time.deltaTime*8f);}
             else{normal_camera.fieldOfView = Mathf.Lerp(normal_camera.fieldOfView, baseFOV, Time.deltaTime*8f);}
 

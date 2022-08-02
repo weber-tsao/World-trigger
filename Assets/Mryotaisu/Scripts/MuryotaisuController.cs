@@ -23,7 +23,7 @@ namespace Muryotaisu
         string prevState;
 
         private CharacterController controller;
-        //private Vector3 moveDirection = Vector3.zero;
+        private Vector3 moveDirection = Vector3.zero;
 
         /////////////////////////
         // From motion.cs (Testing)
@@ -36,7 +36,7 @@ namespace Muryotaisu
         void Start()
         {
             Camera.main.enabled = false;
-            body = GetComponent<Rigidbody>();
+            //body = GetComponent<Rigidbody>();
             animator = GetComponent<Animator>();
             controller = GetComponent<CharacterController>();
         }
@@ -54,7 +54,7 @@ namespace Muryotaisu
             }
             
             //if (controller.isGrounded){
-            float t_hmoved = Input.GetAxisRaw("Horizontal");
+            /*float t_hmoved = Input.GetAxisRaw("Horizontal");
             float t_vmoved = Input.GetAxisRaw("Vertical");
             bool sprint = Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift);
             bool isSprinting = sprint;
@@ -70,7 +70,7 @@ namespace Muryotaisu
             //}
         
             moveDirection.y -= gravity * Time.deltaTime;
-            controller.Move(moveDirection * Time.deltaTime);
+            controller.Move(moveDirection * Time.deltaTime);*/
 
 
             // Kocchiminna <●><●>
@@ -87,7 +87,7 @@ namespace Muryotaisu
                 animator.SetBool("kocchiFlag", true);
             } else {
                 animator.SetBool("kocchiFlag", false);
-            }
+            }*/
             
 
             if (controller.isGrounded)
@@ -200,7 +200,7 @@ namespace Muryotaisu
 
             moveDirection.y -= gravity * Time.deltaTime;
             controller.Move(moveDirection * Time.deltaTime);
-            */
+            
         }
     }
 
