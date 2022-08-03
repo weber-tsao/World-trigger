@@ -6,16 +6,20 @@ using UnityEngine;
 namespace Com.Kawaiisun.SimpleHostile{
     public class look : MonoBehaviour
     {
+        #region Variables
+
         public static bool cursorLocked = true;
-        
         public Transform player;
         public Transform camera;
-
+        public Transform weapon;
         public float x_sensitivity;
         public float y_sensitivity;
         public float maxAngle;
-
         private Quaternion camCenter;
+
+        #endregion
+
+        #region MonoBehaviour Callbacks
 
         // Start is called before the first frame update
         void Start()
@@ -31,6 +35,10 @@ namespace Com.Kawaiisun.SimpleHostile{
             UpdateCursorLock();
         }
 
+        #endregion
+        
+        #region Private Methods
+
         void SetY(){
             float t_input = Input.GetAxis("Mouse Y")*y_sensitivity*Time.deltaTime;
             Quaternion t_adj = Quaternion.AngleAxis(t_input, -Vector3.right);
@@ -38,6 +46,7 @@ namespace Com.Kawaiisun.SimpleHostile{
 
             if (Quaternion.Angle(camCenter, t_delta) < maxAngle){
                 camera.localRotation = t_delta;
+                weapon.localRotation = t_delta;
             }
         }
 
@@ -66,5 +75,8 @@ namespace Com.Kawaiisun.SimpleHostile{
                 }
             }
         }
+        
+        #endregion
+        
     }
 }
