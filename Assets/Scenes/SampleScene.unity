@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 705507994}
-  m_IndirectSpecularColor: {r: 0.44657898, g: 0.4964133, b: 0.5748178, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657844, g: 0.49641222, b: 0.57481694, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -1945,10 +1945,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 923b4bd93e1748546bc17eabf874f44b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 1000
+  speed: 100
   sprintModifier: 2
   normal_camera: {fileID: 765986991}
-  jumpForce: 100
+  jumpForce: 200
   gravity: 1
   ground:
     serializedVersion: 2

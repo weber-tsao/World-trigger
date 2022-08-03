@@ -39,10 +39,10 @@ namespace Com.Kawaiisun.SimpleHostile{
             // Axis
             float t_hmoved = Input.GetAxisRaw("Horizontal");
             float t_vmoved = Input.GetAxisRaw("Vertical");
-            
+
             //Controls
             bool sprint = Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift);
-            bool jump = Input.GetKey(KeyCode.Space);
+            bool jump = Input.GetKeyDown(KeyCode.Space);
 
             //States
             bool isGrounded = Physics.Raycast(groundDetector.position, Vector3.down, 0.1f, ground);
@@ -50,10 +50,11 @@ namespace Com.Kawaiisun.SimpleHostile{
             bool isSprinting = sprint && t_vmoved > 0 && !isJumping && isGrounded;
 
             //Jumping 
-            if(isJumping){
+            if (isJumping)
+            {
                 animator.SetBool("walkFlag", false);
                 animator.SetBool("jumpFlag", true);
-                body.AddForce(Vector3.up*jumpForce);
+                body.AddForce(Vector3.up * jumpForce);
             }
 
         }
@@ -67,7 +68,7 @@ namespace Com.Kawaiisun.SimpleHostile{
 
             //Controls
             bool sprint = Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift);
-            bool jump = Input.GetKey(KeyCode.Space);
+            bool jump = Input.GetKeyDown(KeyCode.Space);
 
             //States
             bool isGrounded = Physics.Raycast(groundDetector.position, Vector3.down, 0.1f, ground);
