@@ -32,7 +32,8 @@ namespace Com.Kawaiisun.SimpleHostile{
         public Transform attackPoint;
 
         //Graphics
-        public GameObject muzzleFlash;
+        //public GameObject muzzleFlash;
+        public ParticleSystem muzzleFlash;
         public TextMeshProUGUI ammunitionDisplay;
 
         //bug fixing :D
@@ -110,7 +111,8 @@ namespace Com.Kawaiisun.SimpleHostile{
 
             //Instantiate muzzle flash, if you have one
             if (muzzleFlash != null)
-                Instantiate(muzzleFlash, attackPoint.position, Quaternion.identity);
+                muzzleFlash.Play();
+                //Instantiate(muzzleFlash, attackPoint.position, Quaternion.identity);
 
             bulletsLeft--;
             bulletsShot++;
