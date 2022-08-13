@@ -14,6 +14,9 @@ public class LobbyScene : MonoBehaviourPunCallbacks
     [SerializeField]
     InputField inputRoomName;
 
+    [SerializeField]
+    InputField inputPlayerName;
+
     public TextMeshProUGUI textRoomList;
 
     // Start is called before the first frame update
@@ -37,16 +40,36 @@ public class LobbyScene : MonoBehaviourPunCallbacks
         return roomName.Trim();
     }
 
+    public string GetPlayerName(){
+        string playerName = inputPlayerName.text;
+        return playerName.Trim();
+    }
+
     public void OnClickCreateRoom(){
         string roomName = GetRoomName();
+        string playerName = GetPlayerName();
 
-        if(roomName.Length > 0){
+        if(roomName.Length > 0 && playerName.Length > 0){
             PhotonNetwork.CreateRoom(roomName);
+            PhotonNetwork.LocalPlayer.NickName = playerName;
         }
         else{
-            print("Invalid RoomName");
+            print("Invalid RoomName or PlayerName");
         }
         
+    }
+
+    public void OnClickJoinRoom(){
+        string roomName = GetRoomName();
+        string playerName = GetPlayerName();
+
+        if(roomName.Length > 0 && playerName.Length > 0){
+            PhotonNetwork.JoinRoom(roomName);
+            PhotonNetwork.LocalPlayer.NickName = playerName;
+        }
+        else{
+            print("Invalid RoomName or PlayerName");
+        }
     }
 
     public override void OnJoinedRoom(){
@@ -57,7 +80,9 @@ public class LobbyScene : MonoBehaviourPunCallbacks
     public override void OnRoomListUpdate(List<RoomInfo> roomList){
         StringBuilder sb = new StringBuilder(); 
         foreach(RoomInfo roomInfo in roomList){
-            sb.AppendLine(roomInfo.Name);
+            if(roomInfo.PlayerCount > 0){
+                sb.AppendLine(roomInfo.Name);
+            }
         }
 
         textRoomList.text = sb.ToString();
