@@ -26,9 +26,16 @@ public class LobbyScene : MonoBehaviourPunCallbacks
             SceneManager.LoadScene("StartScene");
         }
         else{
-            PhotonNetwork.JoinLobby();
+            if(PhotonNetwork.CurrentLobby == null){
+                PhotonNetwork.JoinLobby();
+            }
         }
         
+    }
+
+    public override void OnConnectedToMaster(){
+        print("Connected to Master");
+        PhotonNetwork.JoinLobby();
     }
 
     public override void OnJoinedLobby(){

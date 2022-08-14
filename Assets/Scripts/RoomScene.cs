@@ -12,6 +12,7 @@ public class RoomScene : MonoBehaviourPunCallbacks
 {
     public TextMeshProUGUI textRoomName;
     public TextMeshProUGUI playerList;
+    public Button buttonStartGame;
     
     // Start is called before the first frame update
     void Start()
@@ -23,7 +24,11 @@ public class RoomScene : MonoBehaviourPunCallbacks
             textRoomName.text = PhotonNetwork.CurrentRoom.Name;
             UpdatePlayerList();
         }
-        
+        buttonStartGame.interactable = PhotonNetwork.IsMasterClient;
+    }
+
+    public override void OnMasterClientSwitched(Player newMasterClient){
+        buttonStartGame.interactable = PhotonNetwork.IsMasterClient;
     }
 
     public void UpdatePlayerList(){
@@ -42,5 +47,17 @@ public class RoomScene : MonoBehaviourPunCallbacks
 
     public override void OnPlayerLeftRoom(Player otherPlayer){
         UpdatePlayerList();
+    }
+
+    public void OnClickStartGame(){
+        SceneManager.LoadScene("SampleScene");
+    }
+
+    public void OnClickLeaveRoom(){
+        PhotonNetwork.LeaveRoom();
+    }
+
+    public override void OnLeftRoom(){
+        SceneManager.LoadScene("LobbyScene");
     }
 }
