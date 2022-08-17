@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using Photon.Pun;
 
 namespace Com.Kawaiisun.SimpleHostile{
     public class look : MonoBehaviour
@@ -16,6 +16,7 @@ namespace Com.Kawaiisun.SimpleHostile{
         public float y_sensitivity;
         public float maxAngle;
         private Quaternion camCenter;
+        private PhotonView _pv;
 
         #endregion
 
@@ -25,14 +26,18 @@ namespace Com.Kawaiisun.SimpleHostile{
         void Start()
         {
             camCenter = camera.localRotation; // set rotation origin for camera to camCenter
+            _pv = GetComponent<PhotonView>();
         }
 
         // Update is called once per frame
         void Update()
         {
-            SetY();
-            SetX();
-            UpdateCursorLock();
+            if(_pv.IsMine){
+                SetY();
+                SetX();
+                UpdateCursorLock();
+            }
+            
         }
 
         #endregion

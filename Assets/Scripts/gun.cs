@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
-
+using Photon.Pun;
 
 namespace Com.Kawaiisun.SimpleHostile{
     public class gun : MonoBehaviour
@@ -38,6 +38,8 @@ namespace Com.Kawaiisun.SimpleHostile{
 
         //bug fixing :D
         public bool allowInvoke = true;
+
+        //private PhotonView _pv;
 
         private void Awake()
         {
