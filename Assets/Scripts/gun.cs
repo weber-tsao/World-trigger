@@ -39,22 +39,27 @@ namespace Com.Kawaiisun.SimpleHostile{
         //bug fixing :D
         public bool allowInvoke = true;
 
-        //private PhotonView _pv;
+        private PhotonView _pv;
 
         private void Awake()
         {
             //make sure magazine is full
             bulletsLeft = magazineSize;
             readyToShoot = true;
+            _pv = GetComponent<PhotonView>();
         }
 
         private void Update()
         {
-            MyInput();
 
-            //Set ammo display, if it exists :D
-            if (ammunitionDisplay != null)
-                ammunitionDisplay.SetText(bulletsLeft / bulletsPerTap + " / " + magazineSize / bulletsPerTap);
+            if(_pv.IsMine){
+                MyInput();
+
+                //Set ammo display, if it exists :D
+                if (ammunitionDisplay != null)
+                    ammunitionDisplay.SetText(bulletsLeft / bulletsPerTap + " / " + magazineSize / bulletsPerTap);
+            }
+
         }
         private void MyInput()
         {

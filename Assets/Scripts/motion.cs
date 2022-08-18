@@ -38,6 +38,7 @@ namespace Com.Kawaiisun.SimpleHostile{
 
             if(!_pv.IsMine){
                 GetComponentInChildren<Camera>().enabled = false;
+                Destroy(body);
             }
             else{
                 GetComponentInChildren<Camera>().enabled = true;
