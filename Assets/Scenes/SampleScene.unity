@@ -419,6 +419,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 8
   groundDetector: {fileID: 726507067}
+  trionBarImage: {fileID: 0}
 --- !u!114 &758152453
 MonoBehaviour:
   m_ObjectHideFlags: 0

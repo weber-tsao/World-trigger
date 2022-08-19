@@ -2,11 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
-
+using UnityEngine.UI;
 
 namespace Com.Kawaiisun.SimpleHostile{
     
-    public class motion : MonoBehaviour
+    public class motion : MonoBehaviour, IDamageable
     {
         
         #region Variables
@@ -24,6 +24,13 @@ namespace Com.Kawaiisun.SimpleHostile{
         private Animator animator;
         private PhotonView _pv;
 
+        const float maxTrion = 100f;
+        float currentTrion = maxTrion;
+        PlayerManager playerManager;
+
+        [SerializeField] Image trionBarImage;
+        [SerializeField] GameObject ui;
+
         #endregion
         
         #region MonoBehaviour Callbacks
@@ -35,10 +42,12 @@ namespace Com.Kawaiisun.SimpleHostile{
             //Camera.main.enabled = false;
             body = GetComponent<Rigidbody>();
             _pv = GetComponent<PhotonView>();
+            playerManager = PhotonView.Find((int)_pv.InstantiationData[0]).GetComponent<PlayerManager>();
 
             if(!_pv.IsMine){
                 GetComponentInChildren<Camera>().enabled = false;
-                Destroy(body);
+                Destroy(ui);
+                //Destroy(body);
             }
             else{
                 GetComponentInChildren<Camera>().enabled = true;
@@ -111,6 +120,32 @@ namespace Com.Kawaiisun.SimpleHostile{
                 else{normal_camera.fieldOfView = Mathf.Lerp(normal_camera.fieldOfView, baseFOV, Time.deltaTime*8f);}
             }   
         }
+
+        public void TakeDamage(float damage)
+        {
+            _pv.RPC("RPC_TakeDamage", RpcTarget.All, damage);
+        }
+
+        [PunRPC]
+        void RPC_TakeDamage(float damage){
+            if(!_pv.IsMine){
+                return;
+            }
+            
+            currentTrion -= damage;
+            trionBarImage.fillAmount = currentTrion/maxTrion;
+
+            if(currentTrion <= 0)
+            {
+                Die();
+            }
+            Debug.Log("Took Damage");
+        }
+
+        void Die(){
+            playerManager.Die();
+        }
+
 
         #endregion
         

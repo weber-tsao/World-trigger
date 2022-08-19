@@ -3,9 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using Photon.Pun;
+using Photon.Realtime;
 
 namespace Com.Kawaiisun.SimpleHostile{
-    public class gun : MonoBehaviour
+    public class gun : MonoBehaviourPun
     {
         //bullet 
         public GameObject bullet;
@@ -52,13 +53,12 @@ namespace Com.Kawaiisun.SimpleHostile{
         private void Update()
         {
 
-            if(_pv.IsMine){
-                MyInput();
+            MyInput();
 
-                //Set ammo display, if it exists :D
-                if (ammunitionDisplay != null)
-                    ammunitionDisplay.SetText(bulletsLeft / bulletsPerTap + " / " + magazineSize / bulletsPerTap);
-            }
+            //Set ammo display, if it exists :D
+            if (ammunitionDisplay != null)
+                ammunitionDisplay.SetText(bulletsLeft / bulletsPerTap + " / " + magazineSize / bulletsPerTap);
+                
 
         }
         private void MyInput()
@@ -78,10 +78,13 @@ namespace Com.Kawaiisun.SimpleHostile{
                 //Set bullets shot to 0
                 bulletsShot = 0;
 
-                Shoot();
+                if(_pv.IsMine){
+                    _pv.RPC("Shoot", RpcTarget.All);
+                }
             }
         }
-
+        
+        [PunRPC]
         private void Shoot()
         {
             readyToShoot = false;
@@ -93,10 +96,13 @@ namespace Com.Kawaiisun.SimpleHostile{
             //check if ray hits something
             Vector3 targetPoint;
             if (Physics.Raycast(ray, out hit))
+            {
                 targetPoint = hit.point;
-            else
+                hit.collider.gameObject.GetComponent<IDamageable>()?.TakeDamage(10);
+            }
+            else{
                 targetPoint = ray.GetPoint(75); //Just a point far away from the player
-
+            }
             //Calculate direction from attackPoint to targetPoint
             Vector3 directionWithoutSpread = targetPoint - attackPoint.position;
 
@@ -109,6 +115,7 @@ namespace Com.Kawaiisun.SimpleHostile{
 
             //Instantiate bullet/projectile
             GameObject currentBullet = Instantiate(bullet, attackPoint.position, Quaternion.identity); //store instantiated bullet in currentBullet
+            //GameObject currentBullet = PhotonNetwork.Instantiate(bullet.name, attackPoint.position, Quaternion.identity); //store instantiated bullet in currentBullet
             //Rotate bullet to shoot direction
             currentBullet.transform.forward = directionWithSpread.normalized;
 
@@ -138,6 +145,7 @@ namespace Com.Kawaiisun.SimpleHostile{
             if (bulletsShot < bulletsPerTap && bulletsLeft > 0)
                 Invoke("Shoot", timeBetweenShots);
         }
+
         private void ResetShot()
         {
             //Allow shooting and invoking again

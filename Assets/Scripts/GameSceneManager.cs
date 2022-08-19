@@ -1,11 +1,16 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using UnityEngine;
 using Photon.Pun;
 using UnityEngine.SceneManagement;
 
 public class GameSceneManager : MonoBehaviour
 {
+
+    //private PhotonView _pv;
+    //GameObject controller;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -21,13 +26,8 @@ public class GameSceneManager : MonoBehaviour
         float spawnPointX = Random.Range(-3, 3);
         float spawnPointY = 2;
 
-        PhotonNetwork.Instantiate("PhotonPlayer", new Vector3(spawnPointX, spawnPointY, 0), Quaternion.identity);
+        //PhotonNetwork.Instantiate("PhotonPlayer", new Vector3(spawnPointX, spawnPointY, 0), Quaternion.identity);
+        PhotonNetwork.Instantiate("PlayerManager", new Vector3(spawnPointX, spawnPointY, 0), Quaternion.identity);
 
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
     }
 }
